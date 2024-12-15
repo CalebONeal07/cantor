@@ -1,6 +1,6 @@
 use crate::one::One;
 use crate::zero::Zero;
-use std::fmt::{Debug, Display, Formatter};
+use std::fmt::{Display, Formatter};
 use std::ops::{Add, AddAssign, Index, IndexMut, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Clone, Copy, Eq)]
@@ -56,7 +56,7 @@ where
     [(); N * N]: Sized,
 {
     pub fn identity() -> Matrix<T, N, N> {
-        let mut identity = [T::zero(); N * N];
+        let mut identity = [T::ZERO; N * N];
 
         for i in 0..N {
             identity[i * (N + 1)] = T::one();
@@ -72,7 +72,7 @@ where
     [(); ROWS * COLUMNS]: Sized,
 {
     pub fn zeroes() -> Self {
-        Matrix([T::zero(); ROWS * COLUMNS])
+        Matrix([T::ZERO; ROWS * COLUMNS])
     }
 }
 
@@ -177,11 +177,11 @@ where
     type Output = Matrix<T, ROWS, N>;
 
     fn mul(self, rhs: Matrix<T, COLUMNS, N>) -> Self::Output {
-        let mut result = [T::zero(); ROWS * N];
+        let mut result = [T::ZERO; ROWS * N];
 
         for row in 0..ROWS {
             for col in 0..N {
-                let mut sum = T::zero();
+                let mut sum = T::ZERO;
                 for k in 0..COLUMNS {
                     sum = sum + self.0[row * COLUMNS + k] * rhs.0[k * N + col];
                 }
@@ -199,11 +199,11 @@ where
     [(); N * N]: Sized,
 {
     fn mul_assign(&mut self, rhs: Matrix<T, N, N>) {
-        let mut result = [T::zero(); N * N];
+        let mut result = [T::ZERO; N * N];
 
         for row in 0..N {
             for col in 0..N {
-                let mut sum = T::zero();
+                let mut sum = T::ZERO;
                 for k in 0..N {
                     sum = sum + self.0[row * N + k] * rhs.0[k * N + col];
                 }
@@ -252,7 +252,7 @@ where
     type Output = Matrix<T, ROWS, COLUMNS>;
 
     fn mul(self, rhs: T) -> Self::Output {
-        let mut result = self.0.clone();
+        let result = self.0.clone();
 
         result.iter().for_each(|mut x| x *= rhs);
 

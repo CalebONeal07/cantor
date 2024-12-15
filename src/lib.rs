@@ -4,10 +4,8 @@
 
 pub mod matrix;
 mod one;
-mod quaternion;
-mod unit;
+mod vector;
 mod zero;
-mod types;
 
 #[cfg(test)]
 mod tests {
